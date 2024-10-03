@@ -5,6 +5,7 @@ import com.service.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,6 +28,37 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if ("deleteUser".equals(action)) {
+            Long id = Long.parseLong(request.getParameter("id"));
+            userService.deleteUser(id); // Call the service to delete the user
+            response.sendRedirect("user"); // Redirect to refresh the user list after deletion
+            return;
+        }else if ("editUser".equals(action)) {
+            // Handle user update
+            Long id = Long.parseLong(request.getParameter("id"));
+            String username = request.getParameter("username");
+            String firstName = request.getParameter("first_name");
+            String lastName = request.getParameter("last_name");
+            String email = request.getParameter("email");
+
+            // Get the existing user and update its fields
+            User user = userService.readUser(id);
+            user.setUsername(username);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+
+            // Save the updated user
+            userService.updateUser(user);
+
+            // Redirect to the user list
+            response.sendRedirect("user");
+            return;
+        }
+
+
         // Get form data
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -34,8 +66,10 @@ public class UserServlet extends HttpServlet {
         String last_name = request.getParameter("last_name");
         String email = request.getParameter("email");
 
-        // Create the user entity
-        User user = new User(username, password, first_name, last_name, email);
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        // Create the user entity with hashed password
+        User user = new User(username, hashedPassword, first_name, last_name, email);
 
         // Use the UserService to persist the user
         userService.createUser(user);
