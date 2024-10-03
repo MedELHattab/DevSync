@@ -1,22 +1,28 @@
 package com.servlet;
 
 import com.model.User;
+import com.service.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import java.io.IOException;
 
-@WebServlet("/create-user-servlet")
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet("/user") // Use a single URL pattern for the servlet
 public class UserServlet extends HttpServlet {
 
-    private EntityManagerFactory emf;
+    private final UserService userService = new UserService();
 
     @Override
-    public void init() {
-        emf = Persistence.createEntityManagerFactory("DevSyncPU");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Fetch users from the service
+        List<User> users = userService.listUsers();
+
+        // Set users as request attribute and forward to main.jsp
+        request.setAttribute("users", users);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
+        dispatcher.forward(request, response);
     }
 
     @Override
@@ -24,29 +30,17 @@ public class UserServlet extends HttpServlet {
         // Get form data
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+        String first_name = request.getParameter("first_name");
+        String last_name = request.getParameter("last_name");
         String email = request.getParameter("email");
 
         // Create the user entity
-        User user = new User(username, password, firstName, lastName, email);
+        User user = new User(username, password, first_name, last_name, email);
 
-        // Persist the user to the database
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
+        // Use the UserService to persist the user
+        userService.createUser(user);
 
-        // Redirect to success page
-        response.sendRedirect("user-created.jsp");
-    }
-
-    @Override
-    public void destroy() {
-        if (emf != null) {
-            emf.close();
-        }
+        // Redirect to the user list page after creation
+        response.sendRedirect("user"); // Redirects to the same servlet's doGet method
     }
 }
-
