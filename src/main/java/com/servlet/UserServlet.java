@@ -10,7 +10,7 @@ import jakarta.persistence.Persistence;
 import java.io.IOException;
 
 @WebServlet("/create-user-servlet")
-public class CreateUserServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
 
     private EntityManagerFactory emf;
 

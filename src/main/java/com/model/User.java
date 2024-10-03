@@ -37,7 +37,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.manager = manager;
+
     }
 
     // Getters and Setters
@@ -88,10 +88,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getManager() {
-        return manager;
     }
 
 }
