@@ -1,5 +1,6 @@
 <%@ page import="com.model.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.model.manager_status" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <h2 class="text-lg font-semibold mb-4">User List</h2>
 
@@ -11,6 +12,7 @@
     <th class="border border-gray-300 px-4 py-2">First Name</th>
     <th class="border border-gray-300 px-4 py-2">Last Name</th>
     <th class="border border-gray-300 px-4 py-2">Email</th>
+    <th class="border border-gray-300 px-4 py-2">Status</th>
     <th class="border border-gray-300 px-4 py-2">Actions</th>
   </tr>
   </thead>
@@ -26,6 +28,7 @@
     <td class="border border-gray-300 px-4 py-2"><%= user.getFirstName() %></td>
     <td class="border border-gray-300 px-4 py-2"><%= user.getLastName() %></td>
     <td class="border border-gray-300 px-4 py-2"><%= user.getEmail() %></td>
+    <td class="border border-gray-300 px-4 py-2"><%= user.getManager() %></td>
     <td class="border border-gray-300 px-4 py-2">
       <!-- Button to trigger the modal -->
       <button class="text-blue-500 hover:underline" onclick="showModal('modal-<%= user.getId() %>')">Edit</button> |
@@ -67,6 +70,16 @@
               <label class="block text-sm font-medium mb-2" for="email">Email</label>
               <input type="email" name="email" id="email" value="<%= user.getEmail() %>" class="w-full px-4 py-2 border rounded-lg" required />
             </div>
+
+            <!-- Manager Status Field -->
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2" for="manager">Manager Status</label>
+              <select name="manager" id="manager" class="w-full px-4 py-2 border rounded-lg" required>
+                <option value="user" <%= user.getManager().name().equals("user") ? "selected" : "" %>>User</option>
+                <option value="manager" <%= user.getManager().name().equals("manager") ? "selected" : "" %>>Manager</option>
+              </select>
+            </div>
+
 
             <!-- Submit Button -->
             <div class="flex justify-end">

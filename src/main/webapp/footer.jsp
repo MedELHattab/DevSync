@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <footer class="bg-gray-800 text-white py-4 mt-10">
     <div class="container mx-auto text-center">
-        <p>&copy; 2024 Task Management System. All rights reserved.</p>
+        <p>&copy; 2024 DevSync System. All rights reserved.</p>
     </div>
 </footer>
 

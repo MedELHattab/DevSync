@@ -1,6 +1,7 @@
 package com.servlet;
 
 import com.model.User;
+import com.model.manager_status;
 import com.service.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,16 +33,17 @@ public class UserServlet extends HttpServlet {
 
         if ("deleteUser".equals(action)) {
             Long id = Long.parseLong(request.getParameter("id"));
-            userService.deleteUser(id); // Call the service to delete the user
-            response.sendRedirect("user"); // Redirect to refresh the user list after deletion
+            userService.deleteUser(id);
+            response.sendRedirect("user");
             return;
-        }else if ("editUser".equals(action)) {
+        } else if ("editUser".equals(action)) {
             // Handle user update
             Long id = Long.parseLong(request.getParameter("id"));
             String username = request.getParameter("username");
             String firstName = request.getParameter("first_name");
             String lastName = request.getParameter("last_name");
             String email = request.getParameter("email");
+            manager_status managerStatus = manager_status.valueOf(request.getParameter("manager").toLowerCase());
 
             // Get the existing user and update its fields
             User user = userService.readUser(id);
@@ -49,32 +51,29 @@ public class UserServlet extends HttpServlet {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setEmail(email);
+            user.setManager(managerStatus);  // Update manager status
+//            System.out.println("Manager Status: " + managerStatus);
 
-            // Save the updated user
+
             userService.updateUser(user);
-
-            // Redirect to the user list
             response.sendRedirect("user");
             return;
         }
 
-
-        // Get form data
+        // Handle user creation
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String first_name = request.getParameter("first_name");
         String last_name = request.getParameter("last_name");
         String email = request.getParameter("email");
+        manager_status managerStatus = manager_status.valueOf(request.getParameter("manager")); // Get manager status from form
 
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        // Create the user entity with hashed password
-        User user = new User(username, hashedPassword, first_name, last_name, email);
-
-        // Use the UserService to persist the user
+        // Create user entity with manager_status
+        User user = new User(username, hashedPassword, first_name, last_name, email, managerStatus);
         userService.createUser(user);
 
-        // Redirect to the user list page after creation
-        response.sendRedirect("user"); // Redirects to the same servlet's doGet method
+        response.sendRedirect("user");
     }
 }

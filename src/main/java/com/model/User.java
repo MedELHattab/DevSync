@@ -25,19 +25,20 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "manager")
-    private String manager;
+    @Enumerated(EnumType.STRING) // Ensures that the enum is stored as a string in the database
+    @Column(name = "manager") // No need for columnDefinition here
+    private manager_status manager;
 
     // Constructors
     public User() {}
 
-    public User(String username, String password, String firstName, String lastName, String email) {
+    public User(String username, String password, String firstName, String lastName, String email, manager_status manager) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-
+        this.manager = manager;
     }
 
     // Getters and Setters
@@ -88,6 +89,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public manager_status getManager() {
+        return manager;
+    }
+
+    public void setManager(manager_status manager) {
+        this.manager = manager;
     }
 
 }
