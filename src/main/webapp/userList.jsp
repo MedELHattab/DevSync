@@ -40,7 +40,6 @@
           <input type="hidden" name="id" value="<%= user.getId() %>" />
           <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
         </form>
-
         <!-- Modal for editing the user -->
         <div id="modal-<%= user.getId() %>" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div class="bg-white p-6 rounded-lg w-1/2">

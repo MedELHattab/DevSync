@@ -12,11 +12,11 @@
             <a href="user" class="text-white hover:text-blue-300 text-2xl">DevSync System</a>
         </div>
         <nav class="flex items-center space-x-4"> <!-- Added spacing between nav items -->
-            <a href="tasks" class="bg-white text-blue-600 py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300">
-                Tasks
-            </a>
             <a href="tags" class="bg-white text-blue-600 py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300">
                 Tags
+            </a>
+            <a href="tasks" class="bg-white text-blue-600 py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300">
+                Tasks
             </a>
         </nav>
     </div>

@@ -1,21 +1,15 @@
 package com.service;
 
+import com.model.Tag;
 import com.model.Task;
-import com.repository.TaskRepository;
+import com.repository.TaskRepositoryImpl;
 
 import java.util.List;
+import java.util.Set;
 
 public class TaskService {
 
-    private TaskRepository taskRepository;
-
-    public TaskService(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
-
-    public Task createTask(Task task) {
-        return taskRepository.createTask(task);
-    }
+    private TaskRepositoryImpl taskRepository = new TaskRepositoryImpl(); // Corrected variable name
 
     public Task getTaskById(Long id) {
         return taskRepository.getTaskById(id);
@@ -25,14 +19,16 @@ public class TaskService {
         return taskRepository.getAllTasks();
     }
 
-    public Task updateTask(Task task) {
-        return taskRepository.updateTask(task);
+    public void createTask(Task task, List<Tag> tags) {
+        taskRepository.createTask(task, tags);
+    }
+
+    public void updateTask(Task task, List<Tag> tags) {
+        taskRepository.updateTask(task, tags);
     }
 
     public void deleteTask(Long id) {
-        Task task = taskRepository.getTaskById(id);
-        if (task != null) {
-            taskRepository.deleteTask(task);
-        }
+        taskRepository.deleteTask(id);
     }
+
 }

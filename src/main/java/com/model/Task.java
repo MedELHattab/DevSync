@@ -2,6 +2,8 @@ package com.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,15 +14,16 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "title",nullable = false)
     private String title;
 
+    @Column(name = "description",nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "due_date",nullable = false)
     private LocalDate dueDate;
 
-    @Column(nullable = false)
+    @Column(name = "status",nullable = false)
     private String status = "pending"; // default status
 
     @ManyToOne
@@ -31,11 +34,19 @@ public class Task {
     @JoinColumn(name = "assignee_id", nullable = false)
     private User assignee;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
-    private Set<TaskTag> taskTags;
+    @ManyToMany(fetch = FetchType.LAZY)
+// Change to EAGER
+    @JoinTable(
+            name = "task_tags",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
 
-    private LocalDate createdAt = LocalDate.now();
-    private LocalDate updatedAt = LocalDate.now();
+    @Column(name ="created_at")
+    private LocalDate created_at = LocalDate.now();
+    @Column(name ="updated_at")
+    private LocalDate updated_at = LocalDate.now();
 
     // Getters and Setters
     public Long getId() {
@@ -78,6 +89,22 @@ public class Task {
         this.status = status;
     }
 
+    public LocalDate getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDate created_at) {
+        this.created_at = created_at;
+    }
+
+    public void setUpdated_at(LocalDate updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public LocalDate getUpdated_at() {
+        return updated_at;
+    }
+
     public User getCreator() {
         return creator;
     }
@@ -94,27 +121,20 @@ public class Task {
         this.assignee = assignee;
     }
 
-    public Set<TaskTag> getTaskTags() {
-        return taskTags;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setTaskTags(Set<TaskTag> taskTags) {
-        this.taskTags = taskTags;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
+    // Method to add a tag
+    public void addTag(Tag tag) {
+        if (tags == null) {
+            tags = new ArrayList<>();
+        }
+        tags.add(tag);
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

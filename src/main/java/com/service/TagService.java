@@ -9,6 +9,7 @@ public class TagService {
 
     private TagRepositoryImpl tagRepository = new TagRepositoryImpl();
 
+
     public List<Tag> getAllTags() {
         return tagRepository.findAll();
     }

@@ -1,17 +1,14 @@
 package com.repository;
 
+import com.model.Tag;
 import com.model.Task;
+
 import java.util.List;
 
 public interface TaskRepository {
-
-    Task createTask(Task task);
-
     Task getTaskById(Long id);
-
     List<Task> getAllTasks();
-
-    Task updateTask(Task task);
-
-    void deleteTask(Task task);
+    void createTask(Task task, List<Tag> tags);
+    void updateTask(Task task, List<Tag> tags);
+    void deleteTask(Long id);
 }

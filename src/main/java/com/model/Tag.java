@@ -14,8 +14,6 @@ public class Tag {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private Set<TaskTag> taskTags;
 
     // Getters and Setters
     public Long getId() {
@@ -34,11 +32,5 @@ public class Tag {
         this.name = name;
     }
 
-    public Set<TaskTag> getTaskTags() {
-        return taskTags;
-    }
 
-    public void setTaskTags(Set<TaskTag> taskTags) {
-        this.taskTags = taskTags;
-    }
 }
