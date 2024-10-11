@@ -37,20 +37,27 @@ public class TaskService {
 
         if (taskToDelete != null) {
             User user = taskToDelete.getAssignee(); // Assuming Task entity has assigneeId field
+            User creator = taskToDelete.getCreator();
 
-            Long userId = user.getId();
+            if (user != creator) {
+                Long userId = user.getId();
 
-            // Delete the task from the repository
-            taskRepository.deleteTask(id);
+                // Delete the task from the repository
+                taskRepository.deleteTask(id);
 
-            // Now update the user's tokens based on the assigneeId (which corresponds to user_id)
-            if (userId != null) {
-                UserTokens userTokens = userTokensRepository.findByUserId(userId); // Assuming you have a method to fetch by user ID
+                // Now update the user's tokens based on the assigneeId (which corresponds to user_id)
+                if (userId != null) {
+                    UserTokens userTokens = userTokensRepository.findByUserId(userId); // Assuming you have a method to fetch by user ID
 
-                if (userTokens != null) {
-                    userTokensRepository.setMonthlyTokensToZero();
+                    if (userTokens != null) {
+                        userTokensRepository.setMonthlyTokensToZero();
+                    }
                 }
+            }else {
+                taskRepository.deleteTask(id);
             }
+
+
         }
     }
 
