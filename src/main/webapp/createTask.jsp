@@ -18,6 +18,13 @@
 <main class="flex-grow p-4 mb-4"> <!-- Allow main to grow and take available space -->
     <h1 class="text-2xl font-bold mb-4">Create a New Task</h1>
 
+    <% String errorMessage = (String) request.getAttribute("error"); %>
+    <% if (errorMessage != null) { %>
+    <div class="bg-red-500 text-white p-2 mb-4 rounded">
+        <%= errorMessage %>
+    </div>
+    <% } %>
+
     <form action="${pageContext.request.contextPath}/tasks" method="post" class="bg-white p-6 rounded shadow-md">
         <!-- Task Title -->
         <div class="mb-4">

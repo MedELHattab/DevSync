@@ -178,6 +178,20 @@ public class TaskServlet extends HttpServlet {
         Task newTask = new Task();
         newTask.setTitle(request.getParameter("title"));
         newTask.setDescription(request.getParameter("description"));
+        // Get the due date from the request and check if it's within 3 days from today
+//        LocalDate dueDate = LocalDate.parse(request.getParameter("dueDate"));
+//        LocalDate currentDate = LocalDate.now();
+//
+//        // Check if the due date is more than 3 days ahead of the current date
+//        if (dueDate.isAfter(currentDate.plusDays(3))) {
+//            // Set error message if the due date exceeds 3 days from now
+//            request.setAttribute("error", "The due date should not be more than 3 days from the task creation date.");
+//
+//            // Forward back to the task creation page with error message
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("createTask.jsp");
+//            dispatcher.forward(request, response);
+//            return;
+//        }
         newTask.setDueDate(LocalDate.parse(request.getParameter("dueDate")));
 
         // Set creator and assignee

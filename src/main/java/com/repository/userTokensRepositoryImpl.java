@@ -55,4 +55,34 @@ public class userTokensRepositoryImpl implements userTokensRepository {
             em.close();
         }
     }
+
+
+    public UserTokens findByUserId(Long userId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // Assuming 'User' entity is mapped to 'id' as the primary key
+            return em.createQuery("SELECT ut FROM UserTokens ut WHERE ut.user.id = :userId", UserTokens.class)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+
+    public void setMonthlyTokensToZero() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            // Fetch all UserTokens entities
+            List<UserTokens> userTokensList = em.createQuery("SELECT ut FROM UserTokens ut", UserTokens.class).getResultList();
+            // Set monthly tokens to 0 for each UserTokens entity
+            for (UserTokens userTokens : userTokensList) {
+                userTokens.setMonthlyTokens(0);
+            }
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
 }
