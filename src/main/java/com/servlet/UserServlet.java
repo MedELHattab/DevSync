@@ -11,7 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/user") // Use a single URL pattern for the servlet
+@WebServlet( name = "user" , urlPatterns = "/user") // Use a single URL pattern for the servlet
 public class UserServlet extends HttpServlet {
 
     private final UserService userService = new UserService();
