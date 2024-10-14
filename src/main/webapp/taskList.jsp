@@ -76,6 +76,20 @@
                     <input type="hidden" name="id" value="<%= task.getId() %>" />
                     <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Are you sure you want to delete this task?');">Delete</button>
                 </form>
+
+                <!-- Request Button (only if no request exists) -->
+                <%
+                    if (!task.hasRequest()) { // Check if the task has an associated request
+                %>
+                <form action="requests" method="POST" style="display:inline;">
+                    <input type="hidden" name="taskId" value="<%= task.getId() %>" />
+                    <input type="hidden" name="creatorId" value="<%= task.getCreator().getId() %>" /> <!-- Assuming current user is available -->
+                    <input type="hidden" name="assigneeId" value="<%= task.getAssignee() != null ? task.getAssignee().getId() : "" %>" />
+                    <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Request</button>
+                </form>
+                <%
+                    } // End of request check
+                %>
             </td>
         </tr>
         <%

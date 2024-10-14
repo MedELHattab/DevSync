@@ -40,7 +40,6 @@ public class User {
         this.email = email;
         this.manager = manager;
     }
-
     // Getters and Setters
 
     public Long getId() {

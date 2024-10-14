@@ -44,16 +44,6 @@
             <input type="date" id="dueDate" name="dueDate" required class="border rounded-lg w-full p-2">
         </div>
 
-        <!-- Status -->
-        <div class="mb-4">
-            <label for="status" class="block text-sm font-medium mb-2">Status:</label>
-            <select id="status" name="status" class="border rounded-lg w-full p-2">
-                <option value="pending">Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
-        </div>
-
         <!-- Creator (Select User) -->
         <div class="mb-4">
             <label for="creator" class="block text-sm font-medium mb-2">Creator:</label>

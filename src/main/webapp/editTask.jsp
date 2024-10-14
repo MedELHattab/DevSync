@@ -63,19 +63,15 @@
       </select>
     </div>
 
-    <!-- Assignee Field -->
+    <!-- Creator Field (Disabled for editing) -->
     <div class="mb-4">
-      <label class="block text-sm font-medium mb-2" for="assignee">Assignee</label>
-      <select name="assignee" id="assignee" class="w-full px-4 py-2 border rounded-lg" required>
+      <label class="block text-sm font-medium mb-2" for="creator">Creator</label>
 
-        <option value="">Select Assignee</option>
-        <% if (users != null) {
-          for (User user : users) { %>
+      <!-- Hidden input to store the creator ID -->
+      <input type="hidden" name="assignee" id="assignee" value="<%= task.getAssignee().getId() %>" />
 
-        <option value="<%= user.getId() %>" <%= (task.getAssignee() != null && task.getAssignee().getId().equals(user.getId())) ? "selected" : "" %>>
-          <%= user.getUsername() %></option>
-        <% } } %>
-      </select>
+      <!-- Read-only input to display the creator's username -->
+      <input type="text" value="<%= task.getAssignee().getUsername() %>" class="w-full px-4 py-2 border rounded-lg bg-gray-200" readonly />
     </div>
 
     <!-- Creator Field (Disabled for editing) -->

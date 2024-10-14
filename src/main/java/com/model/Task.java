@@ -35,7 +35,6 @@ public class Task {
     private User assignee;
 
     @ManyToMany(fetch = FetchType.LAZY)
-// Change to EAGER
     @JoinTable(
             name = "task_tags",
             joinColumns = @JoinColumn(name = "task_id"),
@@ -47,6 +46,11 @@ public class Task {
     private LocalDate created_at = LocalDate.now();
     @Column(name ="updated_at")
     private LocalDate updated_at = LocalDate.now();
+
+    @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Request request; // Add this line
+
+
 
     // Getters and Setters
     public Long getId() {
@@ -135,6 +139,10 @@ public class Task {
             tags = new ArrayList<>();
         }
         tags.add(tag);
+    }
+
+    public boolean hasRequest() {
+        return request != null; // Return true if a request exists
     }
 
 }
