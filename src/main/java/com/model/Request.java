@@ -23,6 +23,10 @@ public class Request {
     @JoinColumn(name = "assignee_id", nullable = false)
     private User assignee;
 
+    @ManyToOne
+    @JoinColumn(name = "new_assignee_id")
+    private User Newassignee;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -63,6 +67,14 @@ public class Request {
 
     public void setAssignee(User assignee) {
         this.assignee = assignee;
+    }
+
+    public User getNewAssignee() {
+        return Newassignee;
+    }
+
+    public void setNewAssignee(User Newassignee) {
+        this.Newassignee = Newassignee;
     }
 
     public LocalDateTime getCreatedAt() {

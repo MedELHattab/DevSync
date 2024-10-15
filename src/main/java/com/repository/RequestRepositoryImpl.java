@@ -1,6 +1,7 @@
 package com.repository;
 
 import com.model.Request;
+import com.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -56,4 +57,34 @@ public class RequestRepositoryImpl implements RequestRepository {
         entityManager.close();
         return requests;
     }
+
+    public Request findRequestById(Long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Request request = entityManager.find(Request.class, id);
+        return request;
+    }
+
+    public void updateRequest(Request request) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(request);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            Request request = entityManager.find(Request.class, id);
+            if (request != null) {
+                entityManager.getTransaction().begin();
+                entityManager.remove(request);
+                entityManager.getTransaction().commit();
+            }
+        } finally {
+            entityManager.close();
+        }
+    }
+
 }

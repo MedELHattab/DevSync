@@ -137,4 +137,26 @@ public class TaskRepositoryImpl implements TaskRepository {
             entityManager.close();
         }
     }
+
+    public void updateAssignee(Task task) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+
+            // Update the task
+            entityManager.merge(task);
+
+            // Update the task again to save the tags
+            entityManager.merge(task);
+
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw e; // Rethrow or handle the exception
+        } finally {
+            entityManager.close();
+        }
+    }
 }
