@@ -1,3 +1,4 @@
+
 package com.service;
 
 import com.model.User;
@@ -37,4 +38,3 @@ public class UserService {
         userRepository.deleteUser(id);
     }
 }
-
