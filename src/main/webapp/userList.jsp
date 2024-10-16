@@ -4,6 +4,42 @@
 <%@ page import="com.model.manager_status" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tableRows = document.querySelectorAll('tbody tr');
+    tableRows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      cells.forEach((cell, index) => {
+        if (index % 2 === 0) {
+          cell.classList.add('bg-white');
+        } else {
+          cell.classList.add('bg-gray-200');
+        }
+      });
+    });
+  });
+
+  function showModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+  }
+
+  function hideModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+  }
+
+  // Optional: Close the modal when clicking outside of it
+  window.onclick = function(event) {
+    const modals = document.querySelectorAll("[id^='modal-']");
+    modals.forEach(modal => {
+      if (event.target == modal) {
+        modal.classList.add('hidden');
+      }
+    });
+  }
+</script>
+
+
 <div class="p-16">
   <h2 class="text-lg font-semibold mb-4">User List</h2>
 
@@ -101,36 +137,3 @@
 </div>
 
 <!-- JavaScript to apply alternating column background colors -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const tableRows = document.querySelectorAll('tbody tr');
-    tableRows.forEach(row => {
-      const cells = row.querySelectorAll('td');
-      cells.forEach((cell, index) => {
-        if (index % 2 === 0) {
-          cell.classList.add('bg-white');
-        } else {
-          cell.classList.add('bg-gray-200');
-        }
-      });
-    });
-  });
-
-  function showModal(modalId) {
-    document.getElementById(modalId).classList.remove('hidden');
-  }
-
-  function hideModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
-  }
-
-  // Optional: Close the modal when clicking outside of it
-  window.onclick = function(event) {
-    const modals = document.querySelectorAll("[id^='modal-']");
-    modals.forEach(modal => {
-      if (event.target == modal) {
-        modal.classList.add('hidden');
-      }
-    });
-  }
-</script>
