@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class TaskRepositoryImpl implements TaskRepository {
@@ -155,6 +156,28 @@ public class TaskRepositoryImpl implements TaskRepository {
                 entityManager.getTransaction().rollback();
             }
             throw e; // Rethrow or handle the exception
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public void updateOverdueTasks() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+
+            // Update tasks where due_date is past today and status is not 'Completed'
+            entityManager.createQuery(
+                            "UPDATE Task t SET t.status = 'Overdue' WHERE t.dueDate < :today AND t.status != 'Completed'")
+                    .setParameter("today", LocalDate.now())
+                    .executeUpdate();
+
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            e.printStackTrace();  // Proper logging should be used here
         } finally {
             entityManager.close();
         }
