@@ -85,4 +85,32 @@ public class userTokensRepositoryImpl implements userTokensRepository {
             em.close();
         }
     }
+
+    public boolean hasEnoughDailyTokens(Long userId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            UserTokens userTokens = em.createQuery("SELECT ut FROM UserTokens ut WHERE ut.user.id = :userId", UserTokens.class)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+            return userTokens.getDailyTokens() >= 2;
+        } finally {
+            em.close();
+        }
+    }
+
+    public void deductDailyTokens(Long userId, int tokensToDeduct) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            UserTokens userTokens = em.createQuery("SELECT ut FROM UserTokens ut WHERE ut.user.id = :userId", UserTokens.class)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+            userTokens.setDailyTokens(userTokens.getDailyTokens() - tokensToDeduct);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+
 }

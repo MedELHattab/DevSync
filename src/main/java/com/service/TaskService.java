@@ -5,6 +5,7 @@ import com.model.Task;
 import com.model.User;
 import com.model.UserTokens;
 import com.repository.TaskRepositoryImpl;
+import com.repository.UserRepositoryImpl;
 import com.repository.userTokensRepositoryImpl;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class TaskService {
 
     private TaskRepositoryImpl taskRepository = new TaskRepositoryImpl(); // Corrected variable name
     private userTokensRepositoryImpl userTokensRepository = new userTokensRepositoryImpl();
+    private UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
     public Task getTaskById(Long id) {
         return taskRepository.getTaskById(id);
@@ -59,6 +61,26 @@ public class TaskService {
 
 
         }
+    }
+
+    public void updateTaskAssignee(Long taskId, Long newAssigneeId) {
+        // Get the task by its ID
+        Task task = taskRepository.getTaskById(taskId);
+        if (task == null) {
+            throw new IllegalArgumentException("Task not found with id: " + taskId);
+        }
+
+        // Get the new assignee by their ID
+        User newAssignee = userRepository.readUser(newAssigneeId);
+        if (newAssignee == null) {
+            throw new IllegalArgumentException("User not found with id: " + newAssigneeId);
+        }
+
+        // Set the new assignee
+        task.setAssignee(newAssignee);
+
+        // Update the task in the database
+        taskRepository.updateAssignee(task);
     }
 
 }

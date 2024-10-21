@@ -18,6 +18,12 @@
             <a href="tasks" class="bg-white text-blue-600 py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300">
                 Tasks
             </a>
+            <a href="requests" class="bg-white text-blue-600 py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300">
+                Requests
+            </a>
+            <a href="tag-stats" class="bg-white text-blue-600 py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300">
+                Statistiques
+            </a>
         </nav>
     </div>
 </header>
